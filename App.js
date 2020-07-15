@@ -1,37 +1,45 @@
-import React, {Component, useState} from "react";
-import {Text, View, Image, TextInput} from 'react-native'
-import {Navbar, Nav, NavDropdown, Form, FormControl, Button} from 'react-bootstrap'
+import * as React from "react";
+import {Text, View, Image, TextInput, Button} from 'react-native'
+import {NavigationContainer} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
 
-import 'bootstrap/dist/css/bootstrap.min.css';
 
-const Navigation = () => (
-    <Navbar bg="light" expand="lg">
-      <Navbar.Brand href="#home">Team Manager</Navbar.Brand>
-      <Navbar.Toggle aria-controls="basic-navbar-nav" />
-      <Navbar.Collapse id="basic-navbar-nav">
-        <Nav className="mr-auto">
-          <Nav.Link href="#home">Home</Nav.Link>
-          <Nav.Link href="#link">Link</Nav.Link>
-          <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-            <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-            <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
-            <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-            <NavDropdown.Divider />
-            <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
-          </NavDropdown>
-        </Nav>
-      </Navbar.Collapse>
-    </Navbar>
+
+
+const HomeScreen = ({navigation}) => (
+    <>
+    <View>
+        <Text style={{textAlign : 'center', fontSize : 20, fontWeight : 'bold', marginTop : 15}}>
+            Bienvenido!!
+        </Text>
+    </View>
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Button
+        title="Go to Details"
+        onPress={() => navigation.navigate('Details')}
+      />
+    </View>
+    </>
 );
 
-const main = () => (
+const DetailsScreen = () => (
     <View>
-        <Navigation/>
-        <Text>
-            Hola??
+        <Text style={{textAlign : 'center', fontSize : 20, fontWeight : 'bold', marginTop : 15}}>
+            Detalles!!
         </Text>
     </View>
 );
 
 
-export default main;
+const Stack = createStackNavigator();
+
+const Main = () => (
+    <NavigationContainer>
+        <Stack.Navigator initialRouteName="Home">
+            <Stack.Screen name="Home" component={HomeScreen}/>
+            <Stack.Screen name="Details" component={DetailsScreen}/>
+        </Stack.Navigator>
+    </NavigationContainer>
+);
+
+export default Main;
