@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Text, View, ScrollView, Image, TextInput, Button, StyleSheet, FlatList, SafeAreaView} from 'react-native'
+import {Text, View, ScrollView, Image, TextInput, Button, StyleSheet, FlatList} from 'react-native'
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
@@ -16,7 +16,18 @@ const HomeScreen = () => {
     const [STUFF, setSTUFF] = React.useState([]);
 
     const renderItem = ({item}) => (
+        <View style={{flexDirection: 'row', marginTop: 8, padding:0}}>
         <Item title={item.title}/>
+        <Button style={styles.rButton} 
+            title = 'clear'
+            color = 'red'
+            onPress={() => {
+                console.log("Borrando item" + item.id);
+                DATA.pop(parseInt(item.id));
+                setSTUFF(DATA);
+            }}
+        />
+        </View>
     );
 
     return(
@@ -28,24 +39,24 @@ const HomeScreen = () => {
                 onChangeText = {text => setText(text)}
                 value={text}
             />
-            <Butto- n
+            <Button
                 title= "Submit!"
                 style={styles.button}
                 onPress={() => {
-                    if(text != null){
-                        DATA.push({id : DATA.length, title : text})
-                        setSTUFF(DATA);
+                    if(text != ''){
+                        DATA.push({id : DATA.length.toString(), title : text});
                         setText('');
+                        setSTUFF(DATA);
                         console.log(DATA);
                     }
                 }}
             />
             <ScrollView>
-                <FlatList
+            <FlatList
                     data={STUFF}
                     renderItem = {renderItem}
                     keyExtractor = {item => item.id}
-                />
+            />
             </ScrollView>
         </View>
     );
@@ -59,12 +70,6 @@ const styles = StyleSheet.create({
         padding : 8,
         borderRadius: 6,
     },
-    player:{
-        display: 'flex',
-        margin: 0,
-        padding: 0,
-        textAlign: 'right'
-    },
     inputS:{
         borderBottomColor: 'gray',
         borderBottomWidth: 2,
@@ -77,13 +82,20 @@ const styles = StyleSheet.create({
         padding: 20
     },
     item: {
-        padding: 20,
+        padding: 5,
         marginVertical: 8,
         marginHorizontal: 16,
+        flex: 3
     },
     title: {
       fontSize: 15,
     },
+    rButton:{
+        flex:2,
+        padding:0,
+        margin: 0,
+        textAlign: 'center',
+    }
 });
 
 export default HomeScreen;
