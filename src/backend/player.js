@@ -4,6 +4,7 @@ class Player{
     this.num = props['num'];
     this.lvl = props['lvl'];
     this.absences = [];
+    this.trainings = [];
     this.description = "";
     this.improvement = 0;
   }
@@ -11,6 +12,9 @@ class Player{
     console.log("Nombre: " + this.name);
     console.log("Dorsal: " + this.num);
     console.log("Nivel: " + this.lvl);
+    console.log("Entrenamientos: " + this.trainings);
+    console.log("Faltas: " + this.absences);
+
   }
 
   addAbsence(date){
@@ -39,7 +43,6 @@ class Team{
   addPlayer(player){
     if(player.getclass == 'Player' && player.getclass != null){
       this.players.push(player);
-      console.log("aceptado");
     }
   }
 
@@ -64,6 +67,25 @@ class Team{
       }
     }
   }
+
+  addTraining(date, ...absences){
+    let training = [];
+    if(date === null){
+      let day = new Date();
+      training = [day.getDate(), day.getMonth(), day.getFullYear()];
+    }else{
+      training = date;
+    }
+    for(let player of this.players){
+      for(let fault of absences){
+        if(player.num === fault){
+          player.absences.push(training)
+          break;
+        }
+        player.trainings.push(training);
+      }
+    }
+  }
 }
 
 let y = new Team({name : 'Premini'});
@@ -73,5 +95,9 @@ let m = new Player({name:'arnold', num:11, lvl:10});
 y.addPlayer(x);
 y.addPlayer(z);
 y.addPlayer(m);
-y.deletePlayerByNum(18);
+
+y.addTraining([11,7,2020], 11);
+y.addTraining(null, [0]);
+y.addTraining([13,7,2020], [17]);
 console.log(y.players);
+y.show();
