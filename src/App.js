@@ -3,34 +3,17 @@ import {Text, View, ScrollView, Image, TextInput, Button, StyleSheet, FlatList} 
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-const Item = ({title}) => (
-    <View style={styles.item}>
-        <Text style={styles.title}>- {title}</Text>
-    </View>
-);
-
 let DATA = []
 
 const HomeScreen = () => {
     const [text, setText] = React.useState('');
     const [STUFF, setSTUFF] = React.useState([]);
 
-    const renderItem = ({item}) => (
-        <View style={{flexDirection: 'row', marginTop: 8, padding:0}}>
-        <Item title={item.title}/>
-        <Button style={styles.rButton} 
-            title = 'clear'
-            color = 'red'
-            onPress={() => {
-                console.log("Borrando item" + item.id);
-                DATA.pop(parseInt(item.id));
-                setSTUFF(DATA);
-            }}
-        />
-        </View>
-    );
-
     return(
+        <>
+        <View style={styles.header}>
+            <Text style={styles.headerTitle}>Team Manager</Text>
+        </View>
         <View style={styles.container}>
             <TextInput 
                 style={styles.inputS}
@@ -47,54 +30,78 @@ const HomeScreen = () => {
                         DATA.push({id : DATA.length.toString(), title : text});
                         setText('');
                         setSTUFF(DATA);
-                        console.log(DATA);
+                        console.log(STUFF);
                     }
                 }}
             />
             <ScrollView>
-            <FlatList
-                    data={STUFF}
-                    renderItem = {renderItem}
-                    keyExtractor = {item => item.id}
-            />
+                {STUFF.map(item => (
+                    <>
+                    <View key={item.id} style={styles.item}>
+                        <Text style={styles.title}>- {item.title}</Text>
+                    <Button
+                        title='CLEAR'
+                        color='red'
+                        style={styles.rButton}
+                        onPress={() => {
+                            DATA.splice(parseInt(item.id),1);
+                            console.log("Borrando item " + item.id);
+                            setSTUFF(DATA);
+                        }}
+                    />
+                    </View>
+                    </>
+                ))}
             </ScrollView>
         </View>
+        </>
     );
 }
 
 const styles = StyleSheet.create({
+    header:{
+        padding: 3,
+        backgroundColor: 'gray',
+        justifyContent: 'center'
+    },
+    headerTitle:{
+        textAlign: 'center',
+        marginVertical: 10,
+        fontSize: 20
+    },
     container:{
-        backgroundColor : 'gainsboro',
-        paddingTop : 0,
-        margin : 10,
-        padding : 8,
-        borderRadius: 6,
+        backgroundColor: 'gainsboro',
+        borderRadius : 8,
+        margin: 9,
+        padding: 8
     },
     inputS:{
-        borderBottomColor: 'gray',
-        borderBottomWidth: 2,
         height: 30,
-        marginTop: 20,
-        marginBottom: 10
+        marginVertical: 8,
+        backgroundColor: 'white',
+        borderRadius : 5,
+        paddingHorizontal: 6
     },
     button:{
-        marginTop: 20,
-        padding: 20
+        marginTop: 8,
+        padding: 8
     },
     item: {
         padding: 5,
-        marginVertical: 8,
-        marginHorizontal: 16,
-        flex: 3
+        marginVertical: 3,
+        flexDirection: 'row',
     },
     title: {
-      fontSize: 15,
+        flex: 3,
+        fontSize: 15,
+        margin: 8,
+        justifyContent: 'center'
     },
     rButton:{
-        flex:2,
-        padding:0,
-        margin: 0,
-        textAlign: 'center',
+        flex:1,
+        padding: 0,
+        alignItems: 'flex-end',
+        width: 100
     }
 });
 

@@ -1,9 +1,24 @@
 import * as React from 'react';
 import {ScrollView, StyleSheet, Button, View, Text, TextInput} from 'react-native';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import { NavigationContainer} from '@react-navigation/native';
 
 import HomeScreen from './App';
+import PlayerView from './views/player/player.js';
+import {Player, Team} from './backend/manager.js';
+
+let y = new Team({name : 'Premini'});
+let x = new Player({name:'caye', num:17, lvl:10});
+let z = new Player({name:'curro', num:18, lvl:10});
+let m = new Player({name:'arnold', num:11, lvl:10});
+y.addPlayer(x);
+y.addPlayer(z);
+y.addPlayer(m);
+
+y.addTraining([11,7,2020], 11);
+y.addTraining(null, [0]);
+y.addTraining([13,7,2020], [17]);
+console.log(y.players);
+y.show();
+
 
 class Note extends React.Component {
     render(){
@@ -41,6 +56,7 @@ class Main extends React.Component {
             <View style={styles.header}>
                 <Text style={styles.headerTitle}>Team Manager</Text>
             </View>
+            
             <View style={styles.body}>
                 <TextInput
                     style={styles.input}
@@ -76,21 +92,9 @@ class Main extends React.Component {
         this.state.data.splice(key, 1);
         this.setState({data: this.state.data});
     }
+  
+
 }
-
-const Tab = createBottomTabNavigator();
-
-class App extends React.Component{
-    render(){
-        return(
-            <NavigationContainer initialRoute='Main'>
-                <Tab.Screen name='Main' component={Main}/>
-                <Tab.Screen name='HomeScreen' component={HomeScreen}/>
-            </NavigationContainer>
-        );
-    }
-}
-
 const styles = StyleSheet.create({
     header:{
         padding: 3,

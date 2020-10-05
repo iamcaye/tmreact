@@ -1,4 +1,4 @@
-class Player{
+export class Player{
   constructor(props){
     this.name = props['name'];
     this.num = props['num'];
@@ -27,7 +27,7 @@ class Player{
 }
 
 
-class Team{
+export class Team{
   constructor(props){
     this.name = props['name'];
     this.players = [];
@@ -88,16 +88,3 @@ class Team{
   }
 }
 
-let y = new Team({name : 'Premini'});
-let x = new Player({name:'caye', num:17, lvl:10});
-let z = new Player({name:'curro', num:18, lvl:10});
-let m = new Player({name:'arnold', num:11, lvl:10});
-y.addPlayer(x);
-y.addPlayer(z);
-y.addPlayer(m);
-
-y.addTraining([11,7,2020], 11);
-y.addTraining(null, [0]);
-y.addTraining([13,7,2020], [17]);
-console.log(y.players);
-y.show();
